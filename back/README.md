@@ -16,7 +16,7 @@ npx prisma db seed
 ```
 
 ## What to do
-- [ ] Add a Dockerfile
+- [x] Add a Dockerfile
 - [ ] Add a CI/CD pipeline
     - [ ] Build the application
     - [ ] Run the tests (if applicable)
