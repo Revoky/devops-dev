@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  REGISTRY: rg.fr-par.scw.cloud/myproject
+  REGISTRY: rg.fr-par.scw.cloud/namespace-fanny-costesrossignol
 
 jobs:
   build-and-push:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx (pour build multi-plateformes)
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Login to Scaleway Registry
