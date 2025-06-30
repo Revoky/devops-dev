@@ -7,8 +7,6 @@ on:
 
 env:
   REGISTRY: rg.fr-par.scw.cloud/myproject
-  BACK_IMAGE: ${{ env.REGISTRY }}/back
-  FRONT_IMAGE: ${{ env.REGISTRY }}/front
 
 jobs:
   build-and-push:
@@ -29,10 +27,10 @@ jobs:
 
       - name: Build and push back image
         run: |
-          docker build -t $BACK_IMAGE:latest ./back
-          docker push $BACK_IMAGE:latest
+          docker build -t $REGISTRY/back:latest ./back
+          docker push $REGISTRY/back:latest
 
       - name: Build and push front image
         run: |
-          docker build -t $FRONT_IMAGE:latest ./front
-          docker push $FRONT_IMAGE:latest
+          docker build -t $REGISTRY/front:latest ./front
+          docker push $REGISTRY/front:latest
