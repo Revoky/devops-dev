@@ -13,8 +13,8 @@ npm run build
 To hot reload run `npm run dev`
 
 ## What to do
-- [ ] Add a Dockerfile
-- [ ] Add a Nginx/Apache configuration file
+- [x] Add a Dockerfile
+- [x] Add a Nginx/Apache configuration file
 - [ ] Add a CI/CD pipeline
   - [ ] Build the application
   - [ ] Run the tests (if applicable)
