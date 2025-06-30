@@ -9,8 +9,9 @@ env:
   REGISTRY: rg.fr-par.scw.cloud/namespace-fanny-costesrossignol
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -22,8 +23,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: rg.fr-par.scw.cloud
-          username: ${{ secrets.accesKey }}
-          password: ${{ secrets.secretKey }}
+          username: ${{ secrets.SCW_REGISTRY_USERNAME }}
+          password: ${{ secrets.SCW_REGISTRY_PASSWORD }}
 
       - name: Build and push back image
         run: |
@@ -34,3 +35,23 @@ jobs:
         run: |
           docker build -t $REGISTRY/front:latest ./front
           docker push $REGISTRY/front:latest
+
+      - name: Deploy to VM via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker login rg.fr-par.scw.cloud -u ${{ secrets.SCW_REGISTRY_USERNAME }} -p ${{ secrets.SCW_REGISTRY_PASSWORD }}
+
+            docker pull $REGISTRY/back:latest
+            docker pull $REGISTRY/front:latest
+
+            docker stop back || true
+            docker rm back || true
+            docker run -d --name back -p 3000:3000 $REGISTRY/back:latest
+
+            docker stop front || true
+            docker rm front || true
+            docker run -d --name front -p 80:80 $REGISTRY/front:latest
