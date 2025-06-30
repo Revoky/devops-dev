@@ -1,5 +1,5 @@
 import prisma from '../db.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const main = async () => {
     const encryptedPassword = bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD, parseInt(process.env.BCRYPT_SALT_ROUNDS))

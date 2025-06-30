@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  back:
+    build: ./back
+    ports:
+      - "3000:3000"
+    env_file: ./back/.env
+    volumes:
+      - ./back:/app
+    environment:
+      - OPENSSL_DIR=/usr/lib
+    command: sh -c "npx prisma db push && npx prisma db seed && node server.js"
+
+  front:
+    build: ./front
+    ports:
+      - "80:80"
+    env_file: ./front/.env
